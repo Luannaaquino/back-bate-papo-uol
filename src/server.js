@@ -57,6 +57,17 @@ app.post('/messages', (req,res) =>{
     console.log(message)
 })
 
+app.get('/messages', (req,res)=>{
+    const limit = +req.query.limit; //rever
+    const user = req.headers.user;
+    const filteredMessages = messages.filter((m) => {
+        return (m.type === "message" || m.to === "Todos" || m.to === user || m.from === user);
+    });
+    const lastMessages = filteredMessages.filter((m,i)=> i > messages.length - limit);
+    console.log(lastMessages)
+    res.send(lastMessages)
+});
+
 app.post("/status", (req, res) =>{
     const user = req.header("User");
     console.log(user);
