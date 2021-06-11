@@ -28,6 +28,10 @@ app.post('/participants', (req,res) =>{
     res.sendStatus(200)
 })
 
+app.get('/participants', (req,res) =>{
+    res.send(participants);
+});
+
 app.post('/messages', (req,res) =>{
     const {to, text, type} = req.body;
     const from = req.header("User");
