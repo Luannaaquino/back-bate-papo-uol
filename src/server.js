@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const participants = [];
+let participants = [];
 const messages = [];
 
 app.post('/participants', (req,res) =>{
@@ -56,6 +56,35 @@ app.post('/messages', (req,res) =>{
     res.sendStatus(200);
     console.log(message)
 })
+
+app.post("/status", (req, res) =>{
+    const user = req.header("User");
+    console.log(user);
+    for (let i = 0; i < participants.length; i++){
+        if(participants[i].name.includes(user)){
+            participants[i].lastStatus = Date.now();
+            res.sendStatus(200);
+            
+        } else{
+            res.sendStatus(400);
+        }
+    }
+})
+
+function KickInative (){
+    participants = participants.filter(participant => {
+        const now = Date.now();
+        const status = now - participants.lastStatus
+
+        if(status < 10000){
+            return true;
+        }else {
+            return false
+        }
+    })
+}
+setInterval(KickInative, 15000)
+
 
 app.listen(4000, () => {
     console.log("Servidor Rodando na porta 4000!");
