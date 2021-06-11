@@ -79,7 +79,11 @@ function KickInative (){
         if(status < 10000){
             return true;
         }else {
-            return false
+            const time = dayjs().format("HH:mm:ss");
+            const inative = {from: participants.name, to: 'Todos', text: 'sai da sala...', type: 'status', time}
+            messages.push(inative);
+
+            return false;
         }
     })
 }
